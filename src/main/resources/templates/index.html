@@ -1,0 +1,137 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultoria AWS Cloud</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<!-- Cabeçalho -->
+
+<header>
+    <div class="container">
+        <h1>Consultoria THS Cloud</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Início</a></li>
+                <li><a href="#about">Sobre Nós</a></li>
+                <li><a href="#services">Serviços</a></li>
+                <li><a href="#cases">Casos de Sucesso</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contact">Contato</a></li>
+
+                <li><a th:href="@{/entrar}" th:if="${usuarioLogado == null}">Entrar</a></li>
+
+                <li><a th:href="@{/cadastro}" th:if="${usuarioLogado == null}">Cadastrar</a></li>
+
+                <li class="perfil" th:if="${usuarioLogado != null}">
+                    <a th:href="@{/editar/{id}(id=${usuarioLogadoId})}">Olá, <span th:text="${usuarioLogado}"></span>!</a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</header>
+<div class="main">
+    <!-- Página Inicial -->
+    <section id="home" class="banner">
+        <div class="container">
+            <h2>Soluções de Nuvem AWS Sob Medida para o Seu Negócio</h2>
+            <p>Transforme sua infraestrutura com a líder mundial em computação em nuvem.</p>
+            <a href="#contact" class="cta">Entre em Contato</a>
+        </div>
+    </section>
+
+    <!-- Sobre Nós -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>Sobre Nós</h2>
+            <p>Nossa consultoria oferece soluções personalizadas em nuvem AWS para empresas de todos os tamanhos. Nossa
+                equipe de especialistas está pronta para ajudar você a transformar seu negócio.</p>
+        </div>
+    </section>
+
+    <!-- Serviços -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2>Serviços</h2>
+            <div class="service-list">
+                <div class="service-item">
+                    <h3>Consultoria AWS</h3>
+                    <p>Oferecemos consultoria especializada para implementação e otimização de serviços AWS.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Migração para Nuvem</h3>
+                    <p>Planejamos e executamos a migração de seus sistemas para a nuvem AWS com segurança e eficiência.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Gerenciamento de Infraestrutura</h3>
+                    <p>Monitoramento e gerenciamento contínuo de sua infraestrutura AWS para garantir desempenho e
+                        segurança.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Casos de Sucesso -->
+    <section id="cases" class="cases">
+        <div class="container">
+            <h2>Casos de Sucesso</h2>
+            <div class="case-list">
+                <div class="case-item">
+                    <h3>Empresa XYZ</h3>
+                    <p>Transformação digital completa com aumento de 50% na eficiência operacional.</p>
+                </div>
+                <div class="case-item">
+                    <h3>Startup ABC</h3>
+                    <p>Escalabilidade garantida durante o crescimento rápido da empresa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog" class="blog">
+        <div class="container">
+            <h2>Blog</h2>
+            <div class="blog-list">
+                <div class="blog-item">
+                    <h3>Melhores Práticas na Nuvem AWS</h3>
+                    <p>Aprenda as melhores práticas para otimizar seus recursos na nuvem.</p>
+                </div>
+                <div class="blog-item">
+                    <h3>Novidades AWS</h3>
+                    <p>Fique por dentro das últimas atualizações e lançamentos da AWS.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contato</h2>
+            <form th:action="@{/envioDeEmail}" th:object="${parametros}" method="post">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="nome" th:field="*{nome}" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" th:field="*{email}" required>
+
+                <label for="message">Mensagem:</label>
+                <textarea id="message" name="descricao" th:field="*{descricao}" required></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </section>
+</div>
+<!-- Rodapé -->
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Consultoria AWS Cloud. Todos os direitos reservados.</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<div class="login-container">
+
+    <form th:action="@{/entrar}" th:object="${dtoEntrar}" method="post" class="login-form">
+
+        <h2>Entrar</h2>
+
+        <div class="input-group">
+            <label for="username"><i class="fas fa-user"></i></label>
+            <input type="text" id="username" name="username" th:field="*{usuario}" placeholder="Usuário" required>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
+        </div>
+
+        <div class="input-group">
+            <label for="password"><i class="fas fa-lock"></i></label>
+            <input type="password" id="password" name="password" th:field="*{senha}" placeholder="Senha" required>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+        </div>
+
+        <button type="submit">Entrar</button>
+
+        <p class="forgot-password"><a href="/esqueciSenha">Esqueceu a senha?</a></p>
+
+        <!-- Mensagem de erro global -->
+        <div class="input-group">
+            <div class="invalid-feedback" th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}"></div>
+        </div>
+
+    </form>
+
+    <div class="register-option">
+        <p>Não tem cadastro ainda? <a href="/cadastro">Cadastrar-se</a></p>
+    </div>
+
+    <div class="back-button">
+        <a href="/">Voltar</a>
+    </div>
+
+</div>
+</body>
+</html>

@@ -36,6 +36,7 @@
         <div class="input-group">
             <label for="password"><i class="fas fa-lock"></i></label>
             <input th:errorclass="is-invalid" type="password" id="password" name="password" th:field="*{senha}" placeholder="Senha" >
+            <div class="invalid-feedback" th:id="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
         </div>
 
         <button type="submit">Cadastrar</button>

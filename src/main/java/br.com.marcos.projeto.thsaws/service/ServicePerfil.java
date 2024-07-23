@@ -5,6 +5,9 @@ import br.com.marcos.projeto.thsaws.model.ThsCadastro;
 import br.com.marcos.projeto.thsaws.model.ThsEntrar;
 import br.com.marcos.projeto.thsaws.repository.RepositoryCadastro;
 import br.com.marcos.projeto.thsaws.repository.RepositoryEntrar;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,7 @@ public class ServicePerfil {
 
     }
 
-    public ModelAndView editarPost(@PathVariable Long id, @Valid DtoPerfil dtoPerfil, BindingResult bindingResult, HttpSession session) {
+    public ModelAndView editarPost(@PathVariable Long id, @Valid DtoPerfil dtoPerfil, BindingResult bindingResult, HttpServletRequest request) {
 
         ModelAndView mv = new ModelAndView("perfil");
 
@@ -45,15 +48,16 @@ public class ServicePerfil {
         if (bindingResult.hasErrors()) {
             return mv;
         }
-        if (usuarioExiste.isEmpty()) {
+        if (usuarioExiste.isPresent()) {
             System.out.println("Entrou no is empty");
 
-            ThsCadastro thsCadastro = usuarioExiste.get();
+            //ThsCadastro thsCadastro = usuarioExiste.get();
 
-            repositoryCadastro.save(thsCadastro);
 
-            session.setAttribute("usuario", thsCadastro.getUsuario()); // o nome do usuario foi armazenado na sessão após um cadastro bem sucedido
-            session.setAttribute("id", thsCadastro.getId());
+            repositoryCadastro.save(cadastro);
+
+            request.setAttribute("usuario", cadastro.getUsuario()); // o nome do usuario foi armazenado na sessão após um cadastro bem sucedido
+            request.setAttribute("id", cadastro.getId());
 
             return new ModelAndView("redirect:/");
 
@@ -63,16 +67,16 @@ public class ServicePerfil {
         }
     }
 
-    public ModelAndView editarGet(@PathVariable Long id, DtoPerfil dtoPerfil, HttpSession session) {
+    public ModelAndView editarGet(@PathVariable Long id, DtoPerfil dtoPerfil, HttpServletRequest request) {
 
         ModelAndView mv = new ModelAndView("perfil");
 
         var optionalCadastro = repositoryCadastro.findById(id);
 
-        Long usuarioLogadoId = (Long) session.getAttribute("id");
+        Long usuarioLogadoId = (Long) request.getSession().getAttribute("id");
 
         if (usuarioLogadoId == null) {
-            System.out.println("Usuário não está logado. Redirecionando para a página inicial.");
+            System.err.println("Usuário não está logado. Redirecionando para a página inicial.");
             return new ModelAndView("redirect:/");
         }
 
@@ -87,25 +91,43 @@ public class ServicePerfil {
             mv.addObject("usuarioLogadoId", usuarioLogadoId);
 
         } else {
-            System.out.println("Id não encontrado no banco");
+            System.err.println("Id não encontrado no banco");
         }
 
         return mv;
     }
 
-    public ModelAndView sairDaConta(@PathVariable Long id, HttpSession session) {
+    public ModelAndView sairDaConta(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView("perfil");
 
         var verificandoUsuario = repositoryCadastro.findById(id);
 
         if (verificandoUsuario.isPresent()) {
 
-            Long usuarioLogadoId = (Long) session.getAttribute("id");
+            Long usuarioLogadoId = (Long) request.getSession().getAttribute("id");
 
             mv.addObject("usuarioLogadoId", usuarioLogadoId);
 
-            session.invalidate();
             repositoryCadastro.deleteById(verificandoUsuario.get().getId());
+
+            HttpSession session = request.getSession(false); // Obtendo a Sessão Atual
+
+            if (session != null) {
+                session.invalidate(); // Invalidando a Sessão
+            }
+
+            Cookie[] cookies = request.getCookies(); // Obtém Todos os Cookies da Requisição
+
+            if (cookies != null) { // Verifica se Existe Algum Cookie
+                for (Cookie cookie : cookies) {
+                    if ("usuario".equals(cookie.getName()) || "id".equals(cookie.getName())) { // Verifica se o Nome do Cookie é "usuario" ou "id"
+                        cookie.setMaxAge(0); // indica que ele deve ser removido, por causa do valor 0
+                        cookie.setPath("/");
+                        response.addCookie(cookie);
+                    }
+                }
+            }
+
             return new ModelAndView("redirect:/");
 
         } else {

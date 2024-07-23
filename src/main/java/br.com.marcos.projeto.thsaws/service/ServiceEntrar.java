@@ -49,7 +49,7 @@ public class ServiceEntrar {
 
         if (credenciaisValidas.isPresent() ) {
 
-            ThsCadastro thsCadastro = credenciaisValidas.get();
+            ThsCadastro thsCadastro =  credenciaisValidas.get();
 
             session.setAttribute("usuario", thsCadastro.getUsuario()); // o nome do usuario foi armazenado na sessão após um cadastro bem sucedido
             session.setAttribute("id", thsCadastro.getId());

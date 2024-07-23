@@ -37,8 +37,8 @@
         <div class="buttons">
             <button type="submit">Salvar</button>
             <button type="button" onclick="goBack()">Voltar</button>
-            <button type="button" onclick="logout()">
-                <a th:href="@{/delete/{id}(id=${id})}" >Sair</a>
+            <button type="button">
+                <a th:href="@{/delete/{id}(id=${usuarioLogadoId})}" style="text-decoration: none" >Sair</a>
             </button>
 
         </div>
@@ -50,10 +50,6 @@
         window.history.back();
     }
 
-    function logout() {
-        document.querySelector('.buttons a').click();
-        console.log("Deletando")
-    }
 </script>
 
 </body>

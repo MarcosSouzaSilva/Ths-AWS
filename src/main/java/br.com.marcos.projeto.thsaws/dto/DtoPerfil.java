@@ -32,6 +32,7 @@ public class DtoPerfil {
         return cadastro;
     }
 
+
     public ThsEntrar requisicaoEntrar(){
         ThsEntrar entrar = new ThsEntrar();
         entrar.setNome(this.nome);
@@ -40,7 +41,7 @@ public class DtoPerfil {
         return entrar;
     }
 
-    public void  fromDtoPerfil(ThsCadastro thsCadastro) {
+    public void fromDtoCadastro(ThsCadastro thsCadastro) {
         this.nome = thsCadastro.getNome();
         this.usuario = thsCadastro.getUsuario();
         this.email = thsCadastro.getEmail();

@@ -1,22 +1,19 @@
 package br.com.marcos.projeto.thsaws.service;
-import br.com.marcos.projeto.thsaws.controller.ControllerThsEmail;
+
 import br.com.marcos.projeto.thsaws.dto.DtoEmail;
 import br.com.marcos.projeto.thsaws.model.ThsEmail;
 import br.com.marcos.projeto.thsaws.repository.RepositoryEmail;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
 
 @Service
 public class ServiceEmail {
-
-
 
     @Autowired
     private RepositoryEmail repository;
@@ -41,10 +38,11 @@ public class ServiceEmail {
     }
 
 
-    public ModelAndView enviar(@Valid @ModelAttribute("parametros") DtoEmail parametros, BindingResult bindingResult) {
+    public ModelAndView enviar(@Valid DtoEmail parametros, BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
             System.out.println("Erros de validação encontrados");
-            return new ModelAndView("/");
+            return new ModelAndView("redirect:/");
         } else {
             ThsEmail archAWS = parametros.requisicao();
             this.repository.save(archAWS);

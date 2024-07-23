@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Service
@@ -31,29 +32,34 @@ public class ServicePerfil {
 
     }
 
-    public ModelAndView editarPost(@PathVariable Long id, @Valid DtoPerfil dtoPerfil, BindingResult bindingResult) {
+    public ModelAndView editarPost(@PathVariable Long id, @Valid DtoPerfil dtoPerfil, BindingResult bindingResult, HttpSession session) {
 
         ModelAndView mv = new ModelAndView("perfil");
 
         ThsCadastro cadastro = dtoPerfil.requisicaoCadastro();
 
-        ThsEntrar entrar = dtoPerfil.requisicaoEntrar();
-
-
         var usuarioExiste = repositoryCadastro.findByUsuario(cadastro.getUsuario());
 
+        mv.addObject("dtoPerfil", dtoPerfil);
+
         if (bindingResult.hasErrors()) {
-
             return mv;
-        } else if (usuarioExiste.isPresent()) {
+        }
+        if (usuarioExiste.isEmpty()) {
+            System.out.println("Entrou no is empty");
 
-            bindingResult.rejectValue("usuario", "error.dtoPerfil", "O Usuario ja existe");
-            return new ModelAndView("perfil");
+            ThsCadastro thsCadastro = usuarioExiste.get();
+
+            repositoryCadastro.save(thsCadastro);
+
+            session.setAttribute("usuario", thsCadastro.getUsuario()); // o nome do usuario foi armazenado na sessão após um cadastro bem sucedido
+            session.setAttribute("id", thsCadastro.getId());
+
+            return new ModelAndView("redirect:/");
 
         } else {
-
-            mv.addObject("dtoPerfil", dtoPerfil);
-            return mv;
+            bindingResult.rejectValue("usuario", "error.dtoPerfil", "O Usuario ja existe");
+            return new ModelAndView("perfil");
         }
     }
 
@@ -63,33 +69,36 @@ public class ServicePerfil {
 
         var optionalCadastro = repositoryCadastro.findById(id);
 
+        Long usuarioLogadoId = (Long) session.getAttribute("id");
+
+        if (usuarioLogadoId == null) {
+            System.out.println("Usuário não está logado. Redirecionando para a página inicial.");
+            return new ModelAndView("redirect:/");
+        }
 
         if (optionalCadastro.isPresent()) {
 
-            System.out.println("Entrou no is present");
-
             ThsCadastro cadastro = optionalCadastro.get();
 
-            dtoPerfil.fromDtoPerfil(cadastro);
+            dtoPerfil.fromDtoCadastro(cadastro);
 
             mv.addObject("dtoPerfil", dtoPerfil);
-
-            Long usuarioLogadoId = (Long) session.getAttribute("id");
 
             mv.addObject("usuarioLogadoId", usuarioLogadoId);
 
         } else {
             System.out.println("Id não encontrado no banco");
         }
+
         return mv;
     }
 
-    public ModelAndView sairDaConta (@PathVariable Long id, HttpSession session) {
+    public ModelAndView sairDaConta(@PathVariable Long id, HttpSession session) {
         ModelAndView mv = new ModelAndView("perfil");
 
         var verificandoUsuario = repositoryCadastro.findById(id);
 
-        if (verificandoUsuario.isPresent()){
+        if (verificandoUsuario.isPresent()) {
 
             Long usuarioLogadoId = (Long) session.getAttribute("id");
 

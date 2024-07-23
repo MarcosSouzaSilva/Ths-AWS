@@ -17,8 +17,8 @@
 
         <div class="input-group">
             <label for="name"><i class="fas fa-user"></i></label>
-            <input type="text" id="name" name="name" th:field="*{nome}" placeholder="Nome" >
-
+            <input th:errorclass="is-invalid" type="text" id="name" name="name" th:field="*{nome}" placeholder="Nome" >
+            <div class="invalid-feedback" th:id="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
         </div>
 
         <div class="input-group">
@@ -36,7 +36,6 @@
         <div class="input-group">
             <label for="password"><i class="fas fa-lock"></i></label>
             <input th:errorclass="is-invalid" type="password" id="password" name="password" th:field="*{senha}" placeholder="Senha" >
-
         </div>
 
         <button type="submit">Cadastrar</button>
@@ -46,9 +45,6 @@
         </div>
 
     </form>
-
-
-
     <div class="login-option">
         <p>Já tem uma conta ? <a href="/entrar">Fazer login</a></p>
     </div>

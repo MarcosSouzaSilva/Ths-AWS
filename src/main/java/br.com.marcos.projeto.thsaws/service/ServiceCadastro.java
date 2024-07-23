@@ -3,13 +3,11 @@ package br.com.marcos.projeto.thsaws.service;
 import br.com.marcos.projeto.thsaws.dto.DtoCadastro;
 import br.com.marcos.projeto.thsaws.model.ThsCadastro;
 import br.com.marcos.projeto.thsaws.repository.RepositoryCadastro;
-import br.com.marcos.projeto.thsaws.repository.RepositoryEntrar;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -19,11 +17,8 @@ public class ServiceCadastro {
     @Autowired
     private RepositoryCadastro repoCadastro;
 
-    @Autowired
-    private RepositoryEntrar repositoryEntrar;
 
-
-    public ModelAndView cadastro() {
+    public ModelAndView paginaCadastro() {
 
         ModelAndView view = new ModelAndView("cadastro");
 
@@ -33,22 +28,20 @@ public class ServiceCadastro {
         return view;
     }
 
-    public ModelAndView adicionar(@Valid DtoCadastro dtoParametrosDoCadastro, BindingResult bindingResult, HttpSession session) {
+    public ModelAndView cadastrando(@Valid DtoCadastro dtoCadastro, BindingResult bindingResult, HttpSession session) {
         ModelAndView mv = new ModelAndView("cadastro");
 
-        ThsCadastro thsCadastro = dtoParametrosDoCadastro.requisicao();
+        ThsCadastro thsCadastro = dtoCadastro.requisicao();
 
         if (bindingResult.hasErrors()) {
-            System.out.println(" **** Ocorreu um erro na pagina de cadastro !! **** ");
-            System.out.println(thsCadastro.toString());
+            System.err.println(" **** Ocorreu um erro na pagina de cadastro !! **** ");
+
             return mv;
         }
 
-        var verificacaoUsuario = repoCadastro.findByUsuario(thsCadastro.getUsuario());
+        var verificacaoUsuarioExistente = repoCadastro.findByUsuario(thsCadastro.getUsuario());
 
-        if (verificacaoUsuario.isEmpty()) {
-
-            System.out.println("Entrou no método is empty !!!!!!!!");
+        if (verificacaoUsuarioExistente.isEmpty()) {
 
             this.repoCadastro.save(thsCadastro);
 
@@ -56,11 +49,15 @@ public class ServiceCadastro {
             session.setAttribute("id", thsCadastro.getId());
 
             return new ModelAndView("redirect:/");
-        } else {
-            System.err.println("Informações estão incorretas !");
-            bindingResult.rejectValue("usuario", "error.dtoCadastro", "O Usuário já existe !");
+
         }
 
+        if (thsCadastro.getNome() == null || thsCadastro.getNome().isEmpty()) {
+            bindingResult.rejectValue("nome", "error.required", "Os campos precisam ser preenchidos !");
+
+        } else {
+            bindingResult.rejectValue("usuario", "error.dtoCadastro", "O Usuário já existe !");
+        }
         return mv;
     }
 }

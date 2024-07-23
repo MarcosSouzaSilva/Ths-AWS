@@ -23,14 +23,12 @@ public class ControllerThsEntrar {
 
     @GetMapping("/entrar")
     public ModelAndView entrar() {
-
-        return serviceEntrar.entrar();
+        return serviceEntrar.paginaLogin();
     }
 
 
     @PostMapping("/entrar")
-    public ModelAndView verificacao(@Valid @ModelAttribute("dtoEntrar") DtoEntrar dtoEntrar, BindingResult bindingResult, HttpSession session) {
-
+    public ModelAndView verificacao(@Valid DtoEntrar dtoEntrar, BindingResult bindingResult, HttpSession session) {
         return serviceEntrar.verificao(dtoEntrar, bindingResult, session);
     }
 }

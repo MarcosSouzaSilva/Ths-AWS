@@ -15,41 +15,44 @@
         <div>
             <label for="usuario">Usuário</label>
             <input type="text" th:field="*{usuario}" id="usuario"/>
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}">Usuário Error</div>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}">Usuário Error
+            </div>
         </div>
 
         <div>
             <label for="nome">Nome</label>
-            <input type="text" th:field="*{nome}" id="nome" />
-            <div  th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome Error</div>
+            <input type="text" th:field="*{nome}" id="nome"/>
+            <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome Error</div>
         </div>
 
         <div class="input-group">
             <label for="username">Email<i class="fas fa-user"></i></label>
-            <input th:errorclass="is-invalid" type="text" id="username" name="username" th:field="*{email}" placeholder="Usuário" >
+            <input th:errorclass="is-invalid" type="text" id="username" name="username" th:field="*{email}"
+                   placeholder="Usuário">
             <div class="invalid-feedback" th:id="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
         </div>
 
         <!-- Outros campos do dtoPerfil -->
 
-        <button type="submit">Salvar</button>
+        <div class="buttons">
+            <button type="submit">Salvar</button>
+            <button type="button" onclick="goBack()">Voltar</button>
+            <button type="button" onclick="logout()">
+                <a th:href="@{/delete/{id}(id=${id})}" >Sair</a>
+            </button>
 
+        </div>
     </form>
-
-    <li><a th:href="@{/delete/{id}(id = ${id})}">Sair da conta</a></li>
-
 </div>
 
 <script>
     function goBack() {
-        // Aqui você pode adicionar a lógica para voltar à página anterior ou realizar outra ação de volta
-        window.location.href = "/";
-        console.log('Voltando...');
+        window.history.back();
     }
 
     function logout() {
-        // Aqui você pode adicionar lógica para realizar o logout, como redirecionar para a página de login ou limpar dados da sessão
-        console.log('Saindo...');
+        document.querySelector('.buttons a').click();
+        console.log("Deletando")
     }
 </script>
 

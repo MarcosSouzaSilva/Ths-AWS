@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -25,13 +26,12 @@ public class ControllerPerfil {
 
     @GetMapping("/editar/{id}")
     public ModelAndView perfilUsuario(@PathVariable Long id, DtoPerfil dtoPerfil, HttpSession session) {
-        System.out.println("Entrou no get editar[id]");
         return servicePerfil.editarGet(id, dtoPerfil,session);
     }
 
     @PostMapping("/editarPerfil/{id}")
-    public ModelAndView editarPerfil(@PathVariable Long id, DtoPerfil dto, BindingResult bindingResult) {
-        return servicePerfil.editarPost(id, dto, bindingResult);
+    public ModelAndView editarPerfil(@PathVariable Long id, DtoPerfil dto, BindingResult bindingResult, HttpSession session) {
+        return servicePerfil.editarPost(id, dto, bindingResult, session);
     }
 
     @GetMapping("/delete/{id}")

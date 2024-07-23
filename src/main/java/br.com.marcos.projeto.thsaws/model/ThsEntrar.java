@@ -35,8 +35,5 @@ public class ThsEntrar {
     private String senha;
 
 
-    public ThsEntrar() {
-    }
-
 
 }

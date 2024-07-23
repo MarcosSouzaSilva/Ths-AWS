@@ -1,6 +1,6 @@
 package br.com.marcos.projeto.thsaws.service;
 import br.com.marcos.projeto.thsaws.dto.DtoEntrar;
-import br.com.marcos.projeto.thsaws.model.ThsEntrar;
+import br.com.marcos.projeto.thsaws.model.ThsCadastro;
 import br.com.marcos.projeto.thsaws.repository.RepositoryCadastro;
 import br.com.marcos.projeto.thsaws.repository.RepositoryEntrar;
 import jakarta.servlet.http.HttpSession;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
 
 
 @Service
@@ -23,7 +22,7 @@ public class ServiceEntrar {
     private RepositoryEntrar repositoryEntrar;
 
 
-    public ModelAndView entrar() {
+    public ModelAndView paginaLogin() {
 
         ModelAndView view = new ModelAndView("entrar");
 
@@ -31,31 +30,29 @@ public class ServiceEntrar {
 
         view.addObject("dtoEntrar", dtoEntrar);
 
-        System.out.println("Método entrar");
-
         return view;
     }
 
     public ModelAndView verificao(@Valid DtoEntrar dtoEntrar, BindingResult bindingResult, HttpSession session) {
 
-        System.out.println("Entrou no método entrar de login -----------------------");
-
         ModelAndView view = new ModelAndView("entrar");
 
-        ThsEntrar thsEntrar = dtoEntrar.requisicao();
+        ThsCadastro cadastro = dtoEntrar.requisicao();
 
         if (bindingResult.hasErrors()) {
-            System.out.println(thsEntrar.toString());
+            System.out.println(cadastro.toString());
             return view;
 
         }
 
-        var credenciaisValidas = repositoryCadastro.findByUsuarioAndSenha(thsEntrar.getUsuario(), thsEntrar.getSenha());
+        var credenciaisValidas = repositoryCadastro.findByUsuarioAndSenha(cadastro.getUsuario(), cadastro.getSenha());
 
-        if (credenciaisValidas.isPresent()) {
+        if (credenciaisValidas.isPresent() ) {
 
-            session.setAttribute("usuario", thsEntrar.getUsuario()); // o nome do usuario foi armazenado na sessão após um cadastro bem sucedido
-            session.setAttribute("id", thsEntrar.getId());
+            ThsCadastro thsCadastro = credenciaisValidas.get();
+
+            session.setAttribute("usuario", thsCadastro.getUsuario()); // o nome do usuario foi armazenado na sessão após um cadastro bem sucedido
+            session.setAttribute("id", thsCadastro.getId());
 
             return new ModelAndView("redirect:/");
 

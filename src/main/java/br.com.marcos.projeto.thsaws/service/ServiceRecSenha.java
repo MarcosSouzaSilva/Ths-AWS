@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 @Service
@@ -16,14 +15,14 @@ public class ServiceRecSenha {
     private RepositoryCadastro repositoryCadastro;
 
     public ModelAndView pagina() {
-        ModelAndView mv = new ModelAndView("recuperamentoDeSenha");
+        ModelAndView mv = new ModelAndView("reset-password");
         DtoRecSenha dtoRecSenha = new DtoRecSenha();
         mv.addObject("dtoRecSenha", dtoRecSenha);
         return mv;
     }
 
-    public ModelAndView recuperarSenha(@Valid @ModelAttribute("dtoRecSenha") DtoRecSenha dtoRecSenha, BindingResult bindingResult) {
-        ModelAndView mv = new ModelAndView("recuperamentoDeSenha");
+    public ModelAndView recuperarSenha(@Valid DtoRecSenha dtoRecSenha, BindingResult bindingResult) {
+        ModelAndView mv = new ModelAndView("reset-password");
 
         if (bindingResult.hasErrors()) {
             System.out.println(dtoRecSenha.toString());

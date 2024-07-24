@@ -1,5 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.thymeleaf.org" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,47 +7,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/cadastro.css">
 </head>
-
 <body>
 <div class="cadastro-container">
-
     <form th:action="@{/cadastro}" class="cadastro-form" th:object="${dtoCadastro}" method="post">
-
         <h2>Cadastro</h2>
-
         <div class="input-group">
             <label for="name"><i class="fas fa-user"></i></label>
-            <input th:errorclass="is-invalid" type="text" id="name" name="name" th:field="*{nome}" placeholder="Nome" >
-            <div class="invalid-feedback" th:id="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+            <input th:errorclass="is-invalid" type="text" id="name" name="name" th:field="*{nome}" placeholder="Nome">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
         </div>
-
         <div class="input-group">
             <label for="email"><i class="fas fa-envelope"></i></label>
-            <input th:errorclass="is-invalid" type="email" id="email" name="email" th:field="*{email}" placeholder="Email" >
-
+            <input th:errorclass="is-invalid" type="email" id="email" name="email" th:field="*{email}" placeholder="Email">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
         </div>
-
         <div class="input-group">
             <label for="username"><i class="fas fa-user"></i></label>
-            <input th:errorclass="is-invalid" type="text" id="username" name="username" th:field="*{usuario}" placeholder="Usuário" >
-            <div class="invalid-feedback" th:id="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
+            <input th:errorclass="is-invalid" type="text" id="username" name="username" th:field="*{usuario}" placeholder="Usuário">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
         </div>
-
         <div class="input-group">
             <label for="password"><i class="fas fa-lock"></i></label>
-            <input th:errorclass="is-invalid" type="password" id="password" name="password" th:field="*{senha}" placeholder="Senha" >
-            <div class="invalid-feedback" th:id="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+            <input th:errorclass="is-invalid" type="password" id="password" name="password" th:field="*{senha}" placeholder="Senha">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
         </div>
-
         <button type="submit">Cadastrar</button>
-
         <div class="input-group">
             <div class="invalid-feedback" th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}"></div>
         </div>
-
     </form>
     <div class="login-option">
-        <p>Já tem uma conta ? <a href="/entrar">Fazer login</a></p>
+        <p>Já tem uma conta? <a href="/entrar">Fazer login</a></p>
     </div>
     <div class="back-button">
         <a href="/">Voltar</a>

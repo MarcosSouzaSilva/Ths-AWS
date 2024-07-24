@@ -2,9 +2,7 @@ package br.com.marcos.projeto.thsaws.service;
 
 import br.com.marcos.projeto.thsaws.dto.DtoPerfil;
 import br.com.marcos.projeto.thsaws.model.ThsCadastro;
-import br.com.marcos.projeto.thsaws.model.ThsEntrar;
 import br.com.marcos.projeto.thsaws.repository.RepositoryCadastro;
-import br.com.marcos.projeto.thsaws.repository.RepositoryEntrar;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.Duration;
 
 @Service
 public class ServicePerfil {
@@ -23,8 +22,6 @@ public class ServicePerfil {
     @Autowired
     private RepositoryCadastro repositoryCadastro;
 
-    @Autowired
-    private RepositoryEntrar repositoryEntrar;
 
     public ModelAndView paginaPerfil() {
 
@@ -35,36 +32,88 @@ public class ServicePerfil {
 
     }
 
-    public ModelAndView editarPost(@PathVariable Long id, @Valid DtoPerfil dtoPerfil, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView editarPost(@PathVariable Long id, @Valid DtoPerfil dtoPerfil, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mv = new ModelAndView("perfil");
 
         ThsCadastro cadastro = dtoPerfil.requisicaoCadastro();
 
-        var usuarioExiste = repositoryCadastro.findByUsuario(cadastro.getUsuario());
+        var infoUsuario = repositoryCadastro.findByUsuario(cadastro.getUsuario());
 
         mv.addObject("dtoPerfil", dtoPerfil);
 
         if (bindingResult.hasErrors()) {
+            System.err.println("Houve erro do tipo bindingResult");
             return mv;
         }
-        if (usuarioExiste.isPresent()) {
-            System.out.println("Entrou no is empty");
 
-            //ThsCadastro thsCadastro = usuarioExiste.get();
-
-
-            repositoryCadastro.save(cadastro);
-
-            request.setAttribute("usuario", cadastro.getUsuario()); // o nome do usuario foi armazenado na sessão após um cadastro bem sucedido
-            request.setAttribute("id", cadastro.getId());
-
-            return new ModelAndView("redirect:/");
-
-        } else {
-            bindingResult.rejectValue("usuario", "error.dtoPerfil", "O Usuario ja existe");
-            return new ModelAndView("perfil");
+        Cookie[] cookies = request.getCookies();
+        Long usuarioId = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("id".equals(cookie.getName())) {
+                    usuarioId = Long.parseLong(cookie.getValue());
+                }
+            }
         }
+
+        if (usuarioId != null) {
+
+            var usuarioOpt = repositoryCadastro.findById(usuarioId);
+
+            if (usuarioOpt.isPresent()) {
+                ThsCadastro usuario = usuarioOpt.get();
+                if (!usuario.getUsuario().equals(cadastro.getUsuario()) && repositoryCadastro.findByUsuario(cadastro.getUsuario()).isPresent()) {
+
+                    bindingResult.rejectValue("usuario", "error.dtoPerfil", "O Usuario ja existe");
+                    return new ModelAndView("perfil");
+                }
+
+                boolean update = false;
+
+                if (!usuario.getNome().equals(cadastro.getNome())){
+                    usuario.setNome(cadastro.getNome());
+                    update = true;
+                }
+                if (!usuario.getEmail().equals(cadastro.getEmail())){
+                    usuario.setEmail(cadastro.getEmail());
+                    update = true;
+                }
+                if (!usuario.getUsuario().equals(cadastro.getUsuario())){
+                    usuario.setUsuario(cadastro.getUsuario());
+                    update = true;
+                }
+
+                if (update) {
+
+                    repositoryCadastro.save(usuario);
+
+                    request.getSession().setAttribute("usuario", usuario.getUsuario());
+                    request.getSession().setAttribute("id", usuario.getId());
+
+                    // Atualizar cookies
+                    Cookie userCookie = new Cookie("usuario", usuario.getUsuario());
+                    userCookie.setMaxAge((int) Duration.ofMinutes(5).getSeconds());
+                    userCookie.setPath("/");
+                    userCookie.setHttpOnly(true);
+                    userCookie.setSecure(true);
+                    response.addCookie(userCookie);
+
+                    Cookie idCookie = new Cookie("id", usuario.getId().toString());
+                    idCookie.setMaxAge((int) Duration.ofMinutes(5).getSeconds());
+                    idCookie.setPath("/");
+                    idCookie.setHttpOnly(true);
+                    idCookie.setSecure(true);
+                    response.addCookie(idCookie);
+
+                    System.out.println("Informações atualizadas com sucesso");
+
+                }
+            }
+        } else{
+            System.err.println("Usuario não existe !!");
+        }
+        return new ModelAndView("redirect:/");
     }
 
     public ModelAndView editarGet(@PathVariable Long id, DtoPerfil dtoPerfil, HttpServletRequest request) {
@@ -89,6 +138,7 @@ public class ServicePerfil {
             mv.addObject("dtoPerfil", dtoPerfil);
 
             mv.addObject("usuarioLogadoId", usuarioLogadoId);
+
 
         } else {
             System.err.println("Id não encontrado no banco");

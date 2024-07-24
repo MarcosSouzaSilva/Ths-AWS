@@ -32,8 +32,8 @@ public class ControllerPerfil {
     }
 
     @PostMapping("/editarPerfil/{id}")
-    public ModelAndView editarPerfil(@PathVariable Long id, DtoPerfil dto, BindingResult bindingResult, HttpServletRequest request) {
-        return servicePerfil.editarPost(id, dto, bindingResult, request);
+    public ModelAndView editarPerfil(@PathVariable Long id, DtoPerfil dto, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+        return servicePerfil.editarPost(id, dto, bindingResult, request, response);
     }
 
     @GetMapping("/delete/{id}")

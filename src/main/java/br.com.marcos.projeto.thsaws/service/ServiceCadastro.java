@@ -46,21 +46,20 @@ public class ServiceCadastro {
 
         var verificacaoUsuarioExistente = repoCadastro.findByUsuario(thsCadastro.getUsuario());
 
-        var senhaInvalida = thsCadastro.getSenha().length() <= 9 || thsCadastro.getSenha().length() >= 21;
+        var senhaInvalida = thsCadastro.getSenha().length() <= 7 || thsCadastro.getSenha().length() >= 19;
 
         if (verificacaoUsuarioExistente.isPresent()) {
 
             bindingResult.rejectValue("usuario", "error.dtoCadastro", "Este Usuário já existe !");
-
             return mv;
 
-        }
-        if (senhaInvalida) {
+        } if (senhaInvalida) {
 
             bindingResult.rejectValue("senha", "error.dtoCadastro", "A senha deve possuir entre 8 a 20 caracteres.");
             return mv;
+        }
 
-        } else {
+        if (repoCadastro.findByUsuario(thsCadastro.getUsuario()).isEmpty()) {
             try {
                 this.repoCadastro.save(thsCadastro);
 
@@ -90,5 +89,6 @@ public class ServiceCadastro {
                 return null;
             }
         }
+        return mv;
     }
 }

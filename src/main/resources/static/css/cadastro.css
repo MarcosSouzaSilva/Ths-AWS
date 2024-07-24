@@ -45,8 +45,7 @@ body {
 }
 
 .input-group {
-    margin-bottom: 15px;
-    padding-bottom: 5px;
+    margin-bottom: 35px; /* Aumentado para deixar espaço para a invalid-feedback */
     position: relative; /* Permitir posicionamento relativo para elementos filhos absolutos */
     display: flex; /* Para alinhar itens horizontalmente */
     align-items: center; /* Alinha verticalmente os ícones com os inputs */
@@ -73,9 +72,8 @@ body {
     font-size: 0.9em;
     margin-top: 5px;
     position: absolute; /* Posicionamento absoluto */
-    padding-top: 5px;
-    bottom: -14px; /* Distância da parte inferior do input */
-    left: 30px;
+    bottom: -30px; /* Aumentada para deixar a mensagem mais baixa */
+    left: 0;
     width: 100%; /* Ocupa toda a largura disponível */
 }
 

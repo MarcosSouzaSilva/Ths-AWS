@@ -1,6 +1,6 @@
 package br.com.marcos.projeto.thsaws.dto;
 
-import br.com.marcos.projeto.thsaws.model.ThsCadastro;
+import br.com.marcos.projeto.thsaws.model.ThsUsuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,8 +20,8 @@ public class DtoRecSenha {
     public DtoRecSenha() {
     }
 
-    public ThsCadastro requisicao (){
-        ThsCadastro thsCadastro = new ThsCadastro();
+    public ThsUsuario requisicao (){
+        ThsUsuario thsCadastro = new ThsUsuario();
         thsCadastro.setEmail(this.email);
         return thsCadastro;
     }

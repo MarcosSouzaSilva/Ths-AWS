@@ -5,13 +5,14 @@ import br.com.marcos.projeto.thsaws.model.ThsEmail;
 import br.com.marcos.projeto.thsaws.repository.RepositoryEmail;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 @Service
@@ -19,6 +20,28 @@ public class ServiceEmail {
 
     @Autowired
     private RepositoryEmail repository;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}")
+    private String remetente;
+
+    public String enviarEmailDeTexto(String destinatario, String assunto, String mensagem) {
+
+        try {
+            SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+            simpleMailMessage.setFrom(remetente);
+            simpleMailMessage.setTo(destinatario);
+            simpleMailMessage.setSubject(assunto);
+            simpleMailMessage.setText(mensagem);
+            javaMailSender.send(simpleMailMessage);
+
+            return "Email Enviado";
+        } catch (Exception e) {
+            return "Erro ao enviar email" + e.getLocalizedMessage();
+        }
+    }
 
     public ModelAndView index(HttpServletRequest request) {
 
@@ -65,12 +88,24 @@ public class ServiceEmail {
 
     public ModelAndView enviar(@Valid DtoEmail parametros, BindingResult bindingResult) {
 
+        ModelAndView mv = new ModelAndView("index");
+        ThsEmail thsEmail = parametros.requisicao();
+
+        var emailInvalido = thsEmail.getEmail().contains("@gmail.com") || thsEmail.getEmail().contains("@outlook.com") ||
+                thsEmail.getEmail().contains("@hotmail.com");
+
         if (bindingResult.hasErrors()) {
             System.out.println("Erros de validação encontrados");
             return new ModelAndView("redirect:/");
+        }
+
+        if (!emailInvalido) {
+            bindingResult.rejectValue("email", "error.dtoCadastro", "Email inválido !");
+            return mv;
         } else {
             ThsEmail archAWS = parametros.requisicao();
             this.repository.save(archAWS);
+            enviarEmailDeTexto(thsEmail.getEmail(), thsEmail.getAssunto(), thsEmail.getMensagem());
             return new ModelAndView("redirect:/");
         }
     }

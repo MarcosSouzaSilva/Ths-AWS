@@ -3,6 +3,8 @@ package br.com.marcos.projeto.thsaws.controller;
 
 import br.com.marcos.projeto.thsaws.dto.DtoEntrar;
 import br.com.marcos.projeto.thsaws.service.ServiceEntrar;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class ControllerThsEntrar {
 
 
     @PostMapping("/entrar")
-    public ModelAndView verificacao(@Valid DtoEntrar dtoEntrar, BindingResult bindingResult, HttpSession session) {
-        return serviceEntrar.verificao(dtoEntrar, bindingResult, session);
+    public ModelAndView verificacao(@Valid DtoEntrar dtoEntrar, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+        return serviceEntrar.verificao(dtoEntrar, bindingResult, request,response);
     }
 }

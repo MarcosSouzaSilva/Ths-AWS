@@ -1,7 +1,6 @@
 package br.com.marcos.projeto.thsaws.dto;
 
-import br.com.marcos.projeto.thsaws.model.ThsCadastro;
-import br.com.marcos.projeto.thsaws.model.ThsEntrar;
+import br.com.marcos.projeto.thsaws.model.ThsUsuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -19,11 +18,10 @@ public class DtoEntrar {
     @NotNull
     private String senha;
 
-    public ThsCadastro requisicao (){
-        ThsCadastro cadastro = new ThsCadastro();
+    public ThsUsuario requisicao (){
+        ThsUsuario cadastro = new ThsUsuario();
         cadastro.setUsuario(this.usuario);
         cadastro.setSenha(this.senha);
         return cadastro;
     }
-
 }

@@ -18,7 +18,7 @@
         </div>
         <div class="input-group">
             <label for="email"><i class="fas fa-envelope"></i></label>
-            <input th:errorclass="is-invalid" type="email" id="email" name="email" th:field="*{email}" placeholder="Email">
+            <input th:errorclass="is-invalid" type="email"  id="email" name="email" th:field="*{email}" placeholder="Email">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
         </div>
         <div class="input-group">

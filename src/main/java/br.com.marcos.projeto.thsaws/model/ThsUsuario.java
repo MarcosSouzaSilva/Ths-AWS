@@ -2,10 +2,7 @@ package br.com.marcos.projeto.thsaws.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "usuario")})
-public class ThsCadastro {
+public class ThsUsuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +20,6 @@ public class ThsCadastro {
     private String nome;
 
     @NotBlank
-    @Email
     private String email;
 
     @NotBlank
@@ -32,10 +28,11 @@ public class ThsCadastro {
     @NotBlank
     private String senha;
 
-    public ThsCadastro() {
+
+    public ThsUsuario() {
     }
 
-    public ThsCadastro(String nome, String email, String usuario, String senha) {
+    public ThsUsuario(String nome, String email, String usuario, String senha) {
         this.nome = nome;
         this.email = email;
         this.usuario = usuario;

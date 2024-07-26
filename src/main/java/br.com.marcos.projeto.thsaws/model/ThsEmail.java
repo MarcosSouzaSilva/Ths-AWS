@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -26,7 +25,7 @@ public class ThsEmail {
 
     @NotBlank
     @NotNull
-    private String nome;
+    private String assunto;
 
     @NotBlank
     @NotNull
@@ -35,7 +34,7 @@ public class ThsEmail {
 
     @NotBlank
     @NotNull
-    private String descricao;
+    private String mensagem;
 
     public ThsEmail() {
     }
@@ -45,9 +44,9 @@ public class ThsEmail {
     public String toString() {
         return "ArchAWS{" +
                 "id=" + id +
-                ", nome='" + nome + '\'' +
+                ", nome='" + assunto + '\'' +
                 ", email='" + email + '\'' +
-                ", descricao='" + descricao + '\'' +
+                ", descricao='" + mensagem + '\'' +
                 '}';
     }
 }

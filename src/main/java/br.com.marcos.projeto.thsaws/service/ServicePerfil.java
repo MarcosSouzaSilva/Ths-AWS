@@ -1,7 +1,7 @@
 package br.com.marcos.projeto.thsaws.service;
 
 import br.com.marcos.projeto.thsaws.dto.DtoPerfil;
-import br.com.marcos.projeto.thsaws.model.ThsCadastro;
+import br.com.marcos.projeto.thsaws.model.ThsUsuario;
 import br.com.marcos.projeto.thsaws.repository.RepositoryCadastro;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,14 +36,21 @@ public class ServicePerfil {
 
         ModelAndView mv = new ModelAndView("perfil");
 
-        ThsCadastro cadastro = dtoPerfil.requisicaoCadastro();
+        ThsUsuario cadastro = dtoPerfil.requisicaoCadastro();
 
         var infoUsuario = repositoryCadastro.findByUsuario(cadastro.getUsuario());
+
+        var emailInvalido = cadastro.getEmail().contains("@gmail.com") || cadastro.getEmail().contains("@outlook.com") || cadastro.getEmail().contains("@hotmail.com");
 
         mv.addObject("dtoPerfil", dtoPerfil);
 
         if (bindingResult.hasErrors()) {
             System.err.println("Houve erro do tipo bindingResult");
+            return mv;
+        }
+
+        if (!emailInvalido){
+            bindingResult.rejectValue("email", "error.dtoCadastro", "Email inválido !");
             return mv;
         }
 
@@ -62,7 +69,7 @@ public class ServicePerfil {
             var usuarioOpt = repositoryCadastro.findById(usuarioId);
 
             if (usuarioOpt.isPresent()) {
-                ThsCadastro usuario = usuarioOpt.get();
+                ThsUsuario usuario = usuarioOpt.get();
                 if (!usuario.getUsuario().equals(cadastro.getUsuario()) && repositoryCadastro.findByUsuario(cadastro.getUsuario()).isPresent()) {
 
                     bindingResult.rejectValue("usuario", "error.dtoPerfil", "O Usuario ja existe");
@@ -71,15 +78,15 @@ public class ServicePerfil {
 
                 boolean update = false;
 
-                if (!usuario.getNome().equals(cadastro.getNome())){
+                if (!usuario.getNome().equals(cadastro.getNome())) {
                     usuario.setNome(cadastro.getNome());
                     update = true;
                 }
-                if (!usuario.getEmail().equals(cadastro.getEmail())){
+                if (!usuario.getEmail().equals(cadastro.getEmail())) {
                     usuario.setEmail(cadastro.getEmail());
                     update = true;
                 }
-                if (!usuario.getUsuario().equals(cadastro.getUsuario())){
+                if (!usuario.getUsuario().equals(cadastro.getUsuario())) {
                     usuario.setUsuario(cadastro.getUsuario());
                     update = true;
                 }
@@ -110,7 +117,7 @@ public class ServicePerfil {
 
                 }
             }
-        } else{
+        } else {
             System.err.println("Usuario não existe !!");
         }
         return new ModelAndView("redirect:/");
@@ -131,7 +138,7 @@ public class ServicePerfil {
 
         if (optionalCadastro.isPresent()) {
 
-            ThsCadastro cadastro = optionalCadastro.get();
+            ThsUsuario cadastro = optionalCadastro.get();
 
             dtoPerfil.fromDtoCadastro(cadastro);
 

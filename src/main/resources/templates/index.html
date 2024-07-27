@@ -109,14 +109,15 @@
     <section id="contact" class="contact">
         <div class="container">
             <h2>Me envie um email</h2>
+
             <form th:action="@{/envioDeEmail}" th:object="${parametros}" method="post">
+
                 <label for="name">Assunto:</label>
                 <input type="text" id="name" name="nome" th:field="*{assunto}" required>
-                <label for="email">Email:</label>
-                <input th:errorclass="is-invalid" type="email" id="email" name="email" th:field="*{email}" required>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
                 <label for="message">Mensagem:</label>
                 <textarea id="message" name="mensagem" th:field="*{mensagem}" required></textarea>
+
                 <button type="submit">Enviar</button>
             </form>
         </div>

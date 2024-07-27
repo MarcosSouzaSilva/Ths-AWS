@@ -41,12 +41,6 @@ public class ThsUsuario {
 
     @Override
     public String toString() {
-        return "ThsCadastro{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", usuario='" + usuario + '\'' +
-                ", senha='" + senha + '\'' +
-                '}';
+        return "Usuário :" + usuario + " Senha:" +  senha;
     }
 }

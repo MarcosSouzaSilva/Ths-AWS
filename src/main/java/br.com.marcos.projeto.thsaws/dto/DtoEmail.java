@@ -15,11 +15,6 @@ public class DtoEmail {
     @NotNull
     private String assunto;
 
-    @Email
-    @NotNull
-    @NotBlank(message = "O email não pode estar vazio !")
-    private String email;
-
     @NotBlank(message = "A descrição não pode estar vazia !")
     @NotNull
     private String mensagem;
@@ -29,7 +24,6 @@ public class DtoEmail {
         ThsEmail thsEmail = new ThsEmail();
         thsEmail.setAssunto(this.assunto);
         thsEmail.setMensagem(this.mensagem);
-        thsEmail.setEmail(this.email);
         return thsEmail;
     }
 }

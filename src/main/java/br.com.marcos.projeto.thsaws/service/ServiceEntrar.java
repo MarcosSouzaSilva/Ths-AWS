@@ -3,7 +3,6 @@ package br.com.marcos.projeto.thsaws.service;
 import br.com.marcos.projeto.thsaws.dto.DtoEntrar;
 import br.com.marcos.projeto.thsaws.model.ThsUsuario;
 import br.com.marcos.projeto.thsaws.repository.RepositoryCadastro;
-import br.com.marcos.projeto.thsaws.repository.RepositoryEntrar;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

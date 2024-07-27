@@ -45,9 +45,12 @@ public class ServiceRecSenha {
         }
 
         if (verificaoDeEmail.isPresent()) {
+
             System.out.println("Aqui vai ser enviado o e-mail passado, porque o e-mail existe no banco de dados");
-            serviceEmail.enviarEmailDeTexto(thsCadastro.getEmail(), "Recuperação de email", "Olá, para recuperar sua senha clique no link localhost:8080/");
+
+            serviceEmail.enviarEmailDeTexto("Recuperação de email", "Olá, somos a Ths Cloud, essa é sua senha e usuario = " + verificaoDeEmail);
             bindingResult.rejectValue("email", "success.dtoRecSenha", "Email enviado com sucesso.");
+
         } else {
             System.out.println("O e-mail não existe no banco de dados!");
             bindingResult.rejectValue("email", "error.dtoRecSenha", "Não existe uma conta com este email !");

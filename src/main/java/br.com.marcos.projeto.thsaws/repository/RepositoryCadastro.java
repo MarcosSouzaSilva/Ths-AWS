@@ -16,6 +16,9 @@ public interface RepositoryCadastro extends JpaRepository<ThsUsuario, Long> {
     @Query("SELECT u FROM ThsUsuario u WHERE u.usuario = :usuario")
     Optional<ThsUsuario> findByUsuario(@Param("usuario") String usuario);
 
+    @Query("SELECT u FROM ThsUsuario u WHERE u.senha = :senha")
+    Optional<ThsUsuario> findBySenha(@Param("senha") String senha);
+
     @Query("SELECT u FROM ThsUsuario u WHERE u.email = :email")
     Optional<ThsUsuario> findByEmail(@Param("email") String email);
 

@@ -17,20 +17,13 @@ import lombok.Setter;
 @Entity
 public class ThsEmail {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @NotBlank
     @NotNull
     private String assunto;
-
-    @NotBlank
-    @NotNull
-    @Email
-    private String email;
 
     @NotBlank
     @NotNull
@@ -40,13 +33,4 @@ public class ThsEmail {
     }
 
 
-    @Override
-    public String toString() {
-        return "ArchAWS{" +
-                "id=" + id +
-                ", nome='" + assunto + '\'' +
-                ", email='" + email + '\'' +
-                ", descricao='" + mensagem + '\'' +
-                '}';
-    }
 }

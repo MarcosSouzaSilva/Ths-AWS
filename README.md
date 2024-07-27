@@ -52,29 +52,6 @@ mvn spring-boot:run
 Estrutura do Projeto
 css
 Copiar código
-src
-├── main
-│   ├── java
-│   │   └── com
-│   │       └── exemplo
-│   │           └── projeto
-│   │               ├── controller
-│   │               ├── dto
-│   │               ├── model
-│   │               ├── repository
-│   │               └── service
-│   ├── resources
-│   │   ├── templates
-│   │   ├── static
-│   │   └── application.properties
-│   └── webapp
-│       └── WEB-INF
-└── test
-    └── java
-        └── com
-            └── exemplo
-                └── projeto
-
                 
 Pacotes
 

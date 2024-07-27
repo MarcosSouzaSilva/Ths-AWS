@@ -10,38 +10,47 @@
 <body>
 <div class="cadastro-container">
     <form th:action="@{/cadastro}" class="cadastro-form" th:object="${dtoCadastro}" method="post">
+
         <h2>Cadastro</h2>
-        <div class="input-group">
+
+        <div class="input-group" th:classappend="${#fields.hasErrors('nome')} ? 'has-error' : ''">
             <label for="name"><i class="fas fa-user"></i></label>
-            <input th:errorclass="is-invalid" type="text" id="name" name="name" th:field="*{nome}" placeholder="Nome">
+            <input th:errorclass="is-invalid" type="text" id="name" name="name" th:field="*{nome}" placeholder="Nome" required/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
         </div>
-        <div class="input-group">
+
+        <div class="input-group" th:classappend="${#fields.hasErrors('email')} ? 'has-error' : ''">
             <label for="email"><i class="fas fa-envelope"></i></label>
-            <input th:errorclass="is-invalid" type="email"  id="email" name="email" th:field="*{email}" placeholder="Email">
+            <input th:errorclass="is-invalid" id="email" name="email" th:field="*{email}" placeholder="Email" required/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
         </div>
-        <div class="input-group">
+
+        <div class="input-group" th:classappend="${#fields.hasErrors('usuario')} ? 'has-error' : ''">
             <label for="username"><i class="fas fa-user"></i></label>
-            <input th:errorclass="is-invalid" type="text" id="username" name="username" th:field="*{usuario}" placeholder="Usuário">
+            <input th:errorclass="is-invalid" type="text" id="username" name="username" th:field="*{usuario}" placeholder="Usuário" required/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></div>
         </div>
-        <div class="input-group">
+
+        <div class="input-group" th:classappend="${#fields.hasErrors('senha')} ? 'has-error' : ''">
             <label for="password"><i class="fas fa-lock"></i></label>
-            <input th:errorclass="is-invalid" type="password" id="password" name="password" th:field="*{senha}" placeholder="Senha">
+            <input th:errorclass="is-invalid" type="password" id="password" name="password" th:field="*{senha}" placeholder="Senha" required/>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
         </div>
+
         <button type="submit">Cadastrar</button>
         <div class="input-group">
             <div class="invalid-feedback" th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}"></div>
         </div>
     </form>
+
     <div class="login-option">
         <p>Já tem uma conta? <a href="/entrar">Fazer login</a></p>
     </div>
+
     <div class="back-button">
         <a href="/">Voltar</a>
     </div>
+
 </div>
 </body>
 </html>

@@ -22,10 +22,6 @@ public class ServiceEntrar {
     @Autowired
     private RepositoryCadastro repositoryCadastro;
 
-    @Autowired
-    private RepositoryEntrar repositoryEntrar;
-
-
     public ModelAndView paginaLogin() {
 
         ModelAndView view = new ModelAndView("entrar");

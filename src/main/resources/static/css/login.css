@@ -12,60 +12,70 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
 
+/* Container principal de login */
 .login-container {
-    width: 320px;
+    width: 100%;
+    max-width: 360px;
     background-color: #1f1f1f; /* Cor de fundo do container */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
+/* Título do formulário de login */
 .login-form h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #ffffff; /* Cor do texto */
 }
 
+/* Grupo de entrada de dados */
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Aumentado para garantir que há espaço suficiente */
     border-bottom: 1px solid #666; /* Cor da linha inferior */
-    padding-bottom: 5px;
+    padding-bottom: 10px; /* Padding inferior aumentado */
     position: relative; /* Permitir posicionamento relativo para elementos filhos absolutos */
     display: flex; /* Para alinhar itens horizontalmente */
     align-items: center; /* Alinha verticalmente os ícones com os inputs */
 }
 
+/* Rótulo com ícone */
 .input-group label {
     font-size: 18px;
     margin-right: 10px;
     color: #ccc; /* Cor do ícone */
 }
 
+/* Campos de entrada */
 .input-group input {
     width: 100%;
-    padding: 8px;
+    padding: 12px 10px; /* Padding aumentado para mais conforto */
     font-size: 16px;
     background-color: #333; /* Cor do campo de entrada */
     color: #ffffff; /* Cor do texto dentro do campo */
     border: none;
     outline: none;
+    border-radius: 4px; /* Bordas arredondadas */
 }
 
+/* Feedback de erro */
 .invalid-feedback {
     color: red;
     font-size: 0.9em;
     margin-top: 5px;
     position: absolute; /* Posicionamento absoluto */
-    bottom: -20px; /* Distância da parte inferior do input */
+    bottom: -25px; /* Ajustado para melhor visualização */
     left: 0;
     width: 100%; /* Ocupa toda a largura disponível */
 }
 
+/* Botão de submit */
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px; /* Padding aumentado para mais conforto */
     background-color: #007bff; /* Cor do botão */
     color: #ffffff;
     border: none;
@@ -73,12 +83,14 @@ button {
     font-size: 18px;
     border-radius: 4px;
     margin-top: 10px; /* Espaço entre o botão e a div de feedback */
+    transition: background-color 0.3s;
 }
 
 button:hover {
     background-color: #0056b3; /* Cor do botão ao passar o mouse */
 }
 
+/* Link para recuperação de senha */
 .forgot-password {
     text-align: center;
     margin-top: 10px;
@@ -94,6 +106,7 @@ button:hover {
     text-decoration: underline;
 }
 
+/* Link para registro */
 .register-option {
     text-align: center;
     margin-top: 20px;
@@ -109,6 +122,7 @@ button:hover {
     text-decoration: underline;
 }
 
+/* Link para voltar */
 .back-button {
     text-align: center;
     margin-top: 20px;
@@ -132,6 +146,6 @@ button:hover {
 /* Responsividade */
 @media screen and (max-width: 400px) {
     .login-container {
-        width: 280px;
+        width: 90%;
     }
 }

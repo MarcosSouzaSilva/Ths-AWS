@@ -11,7 +11,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Duration;
@@ -32,7 +34,7 @@ public class ServicePerfil {
 
     }
 
-    public ModelAndView editarPost(@PathVariable Long id, @Valid DtoPerfil dtoPerfil, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView editarPost(@RequestParam(name = "id") Long id, @Valid DtoPerfil dtoPerfil, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mv = new ModelAndView("perfil");
 
@@ -73,7 +75,7 @@ public class ServicePerfil {
                 if (!usuario.getUsuario().equals(cadastro.getUsuario()) && repositoryCadastro.findByUsuario(cadastro.getUsuario()).isPresent()) {
 
                     bindingResult.rejectValue("usuario", "error.dtoPerfil", "O Usuario ja existe");
-                    return new ModelAndView("perfil");
+                    return mv;
                 }
 
                 boolean update = false;
@@ -123,7 +125,7 @@ public class ServicePerfil {
         return new ModelAndView("redirect:/");
     }
 
-    public ModelAndView editarGet(@PathVariable Long id, DtoPerfil dtoPerfil, HttpServletRequest request) {
+    public ModelAndView editarGet(@RequestParam(name = "id") Long id, DtoPerfil dtoPerfil, HttpServletRequest request) {
 
         ModelAndView mv = new ModelAndView("perfil");
 
@@ -154,7 +156,7 @@ public class ServicePerfil {
         return mv;
     }
 
-    public ModelAndView sairDaConta(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView sairDaConta(@RequestParam(name = "id") Long id, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mv = new ModelAndView("perfil");
 
         var verificandoUsuario = repositoryCadastro.findById(id);

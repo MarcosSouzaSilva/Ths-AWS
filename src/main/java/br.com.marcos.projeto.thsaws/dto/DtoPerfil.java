@@ -1,7 +1,6 @@
 package br.com.marcos.projeto.thsaws.dto;
 
 import br.com.marcos.projeto.thsaws.model.ThsUsuario;
-import br.com.marcos.projeto.thsaws.model.ThsEntrar;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -33,13 +32,7 @@ public class DtoPerfil {
     }
 
 
-    public ThsEntrar requisicaoEntrar(){
-        ThsEntrar entrar = new ThsEntrar();
-        entrar.setNome(this.nome);
-        entrar.setUsuario(this.usuario);
-        entrar.setEmail(this.email);
-        return entrar;
-    }
+
 
     public void fromDtoCadastro(ThsUsuario thsCadastro) {
         this.nome = thsCadastro.getNome();
@@ -47,9 +40,5 @@ public class DtoPerfil {
         this.email = thsCadastro.getEmail();
     }
 
-    public void fromDtoEntrar(ThsEntrar thsEntrar) {
-        this.nome = thsEntrar.getNome();
-        this.usuario = thsEntrar.getUsuario();
-        this.email = thsEntrar.getEmail();
-    }
+
 }

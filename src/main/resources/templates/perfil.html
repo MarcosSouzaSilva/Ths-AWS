@@ -9,27 +9,26 @@
 <body class="dark-theme">
 
 <div class="container">
-    <form th:action="@{/editarPerfil/{id}(id=${id})}" th:object="${dtoPerfil}" id="profile-form" method="POST">
+    <form th:action="@{/editarPerfil(id=${usuarioLogadoId})}" th:object="${dtoPerfil}" id="profile-form" method="post">
 
         <!-- Campos do formulário -->
+
         <div>
             <label for="usuario">Usuário</label>
-            <input type="text" th:field="*{usuario}" id="usuario"/>
-            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}">Usuário Error
-            </div>
+            <input type="text" th:field="*{usuario}" id="usuario" required/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}">Usuário Error</div>
         </div>
 
         <div>
             <label for="nome">Nome</label>
-            <input type="text" th:field="*{nome}" id="nome"/>
+            <input type="text" th:field="*{nome}" id="nome" required/>
             <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome Error</div>
         </div>
 
         <div class="input-group">
             <label for="username">Email<i class="fas fa-user"></i></label>
-            <input th:errorclass="is-invalid" type="text" id="username" name="username" th:field="*{email}"
-                   placeholder="Usuário">
-            <div class="invalid-feedback" th:id="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            <input th:errorclass="is-invalid" type="text" id="username" name="username" th:field="*{email}" required/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
         </div>
 
         <!-- Outros campos do dtoPerfil -->
@@ -37,10 +36,9 @@
         <div class="buttons">
             <button type="submit">Salvar</button>
             <button type="button" onclick="goBack()">Voltar</button>
-            <button type="button">
-                <a th:href="@{/delete/{id}(id=${usuarioLogadoId})}" style="text-decoration: none" >Sair</a>
-            </button>
-
+            <a class="botao-sair" th:href="@{/delete(id=${usuarioLogadoId})}">
+                <button type="button">Sair</button>
+            </a>
         </div>
     </form>
 </div>

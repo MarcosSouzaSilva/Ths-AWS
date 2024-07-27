@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultoria AWS Cloud</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"></script>
+    <script th:src="@{/js/scripts.js}"></script>
 </head>
 <body>
 <!-- Cabeçalho -->
-
 <header>
     <div class="container">
         <h1>Consultoria THS Cloud</h1>
@@ -20,15 +23,11 @@
                 <li><a href="#cases">Casos de Sucesso</a></li>
                 <li><a href="#blog">Blog</a></li>
                 <li><a href="#contact">Contato</a></li>
-
                 <li><a th:href="@{/entrar}" th:if="${usuarioLogado == null}">Entrar</a></li>
-
                 <li><a th:href="@{/cadastro}" th:if="${usuarioLogado == null}">Cadastrar</a></li>
-
                 <li class="perfil" th:if="${usuarioLogado != null}">
-                    <a th:href="@{/editar/{id}(id=${usuarioLogadoId})}">Olá, <span th:text="${usuarioLogado}"></span>!</a>
+                    <a th:href="@{/editar(id=${usuarioLogadoId})}">Olá, <span th:text="${usuarioLogado}"></span>!</a>
                 </li>
-
             </ul>
         </nav>
     </div>
@@ -47,8 +46,7 @@
     <section id="about" class="about">
         <div class="container">
             <h2>Sobre Nós</h2>
-            <p>Nossa consultoria oferece soluções personalizadas em nuvem AWS para empresas de todos os tamanhos. Nossa
-                equipe de especialistas está pronta para ajudar você a transformar seu negócio.</p>
+            <p>Nossa consultoria oferece soluções personalizadas em nuvem AWS para empresas de todos os tamanhos. Nossa equipe de especialistas está pronta para ajudar você a transformar seu negócio.</p>
         </div>
     </section>
 
@@ -67,8 +65,7 @@
                 </div>
                 <div class="service-item">
                     <h3>Gerenciamento de Infraestrutura</h3>
-                    <p>Monitoramento e gerenciamento contínuo de sua infraestrutura AWS para garantir desempenho e
-                        segurança.</p>
+                    <p>Monitoramento e gerenciamento contínuo de sua infraestrutura AWS para garantir desempenho e segurança.</p>
                 </div>
             </div>
         </div>
@@ -115,14 +112,11 @@
             <form th:action="@{/envioDeEmail}" th:object="${parametros}" method="post">
                 <label for="name">Assunto:</label>
                 <input type="text" id="name" name="nome" th:field="*{assunto}" required>
-
                 <label for="email">Email:</label>
                 <input th:errorclass="is-invalid" type="email" id="email" name="email" th:field="*{email}" required>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-
                 <label for="message">Mensagem:</label>
                 <textarea id="message" name="mensagem" th:field="*{mensagem}" required></textarea>
-
                 <button type="submit">Enviar</button>
             </form>
         </div>

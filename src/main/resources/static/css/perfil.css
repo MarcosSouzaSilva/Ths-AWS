@@ -1,3 +1,10 @@
+/* Reset e configuração inicial */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -10,6 +17,7 @@ body {
     color: #fff; /* Cor do texto para contraste */
 }
 
+/* Container principal */
 .container {
     width: 100%;
     max-width: 600px;
@@ -17,9 +25,9 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: #fff; /* Cor do texto para contraste */
 }
 
+/* Estilo do formulário */
 #profile-form {
     display: grid;
     gap: 10px;
@@ -36,10 +44,7 @@ label {
     font-weight: bold;
 }
 
-.input-container {
-    position: relative; /* Container do input para posicionamento absoluto do feedback */
-}
-
+/* Estilo dos campos de entrada */
 input[type="text"],
 input[type="email"],
 input[type="tel"],
@@ -59,6 +64,7 @@ textarea {
     resize: vertical;
 }
 
+/* Grupo de botões */
 .buttons {
     display: flex;
     justify-content: space-between;
@@ -66,6 +72,7 @@ textarea {
     margin-top: 20px;
 }
 
+/* Estilo dos botões */
 button {
     padding: 10px 20px;
     background-color: #007bff; /* Cor azul para o botão */
@@ -74,16 +81,32 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 1em;
+    transition: background-color 0.3s;
 }
 
 button:hover {
     background-color: #0056b3; /* Cor azul mais escura no hover */
 }
 
+/* Estilo do link de feedback de erro */
 .invalid-feedback {
     color: red;
     font-size: 0.9em;
-    position: initial; /* Posicionamento absoluto */
-    bottom: -10px; /* Ajustando a distância da parte inferior do input */
-    left: 230px;
+    position: absolute; /* Posicionamento absoluto */
+    bottom: -25px; /* Ajustando a distância da parte inferior do input */
+    left: 0;
+    width: 100%; /* Ocupa toda a largura disponível */
+}
+
+/* Estilo do botão de sair */
+.botao-sair {
+    color: white;
+    text-decoration: none;
+}
+
+/* Responsividade */
+@media screen and (max-width: 600px) {
+    .container {
+        width: 90%;
+    }
 }

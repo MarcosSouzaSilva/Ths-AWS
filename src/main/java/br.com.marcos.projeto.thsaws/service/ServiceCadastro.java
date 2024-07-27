@@ -30,8 +30,6 @@ public class ServiceCadastro {
 
         ModelAndView view = new ModelAndView("cadastro");
 
-        DtoCadastro dtoCadastro = new DtoCadastro();
-
         view.addObject("dtoCadastro", new ThsUsuario());
         return view;
     }
@@ -63,6 +61,13 @@ public class ServiceCadastro {
             return mv;
         }
 
+        var emailExiste = repoCadastro.findByEmail(thsCadastro.getEmail());
+
+        if (emailExiste.isPresent()){
+            bindingResult.rejectValue("email", "error.dtoCadastro", "Já existe um usuario com este email !");
+            return mv;
+        }
+
         if (!emailInvalido){
             bindingResult.rejectValue("email", "error.dtoCadastro", "Email inválido !");
             return mv;
@@ -70,8 +75,8 @@ public class ServiceCadastro {
 
             if (repoCadastro.findByUsuario(thsCadastro.getUsuario()).isEmpty()) {
                 try {
-                    this.repoCadastro.save(thsCadastro);
 
+                    this.repoCadastro.save(thsCadastro);
 
                     request.getSession().setAttribute("usuario", thsCadastro.getUsuario()); // o nome do usuario foi armazenado na sessão após um cadastro bem sucedido
                     request.getSession().setAttribute("id", thsCadastro.getId());
@@ -92,11 +97,10 @@ public class ServiceCadastro {
 
                     response.getWriter().println("Atributo armazenado na sessão: " + thsCadastro.getId());
 
-
                     return new ModelAndView("redirect:/");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Ocorreu um erro ao processar o cadastro.");
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Ocorreu um erro ao processar o cadastro, tente novamente mais tarde.");
                     return null;
                 }
             }

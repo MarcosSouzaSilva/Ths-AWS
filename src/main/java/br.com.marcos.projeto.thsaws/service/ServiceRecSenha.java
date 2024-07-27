@@ -1,4 +1,5 @@
 package br.com.marcos.projeto.thsaws.service;
+
 import br.com.marcos.projeto.thsaws.dto.DtoRecSenha;
 import br.com.marcos.projeto.thsaws.model.ThsUsuario;
 import br.com.marcos.projeto.thsaws.repository.RepositoryCadastro;
@@ -33,18 +34,20 @@ public class ServiceRecSenha {
         }
 
         ThsUsuario thsCadastro = dtoRecSenha.requisicao();
+
         var verificaoDeEmail = repositoryCadastro.findByEmail(thsCadastro.getEmail());
 
         var emailInvalido = thsCadastro.getEmail().contains("@gmail.com") || thsCadastro.getEmail().contains("@outlook.com") || thsCadastro.getEmail().contains("@hotmail.com");
 
-        if (!emailInvalido){
+        if (!emailInvalido) {
             bindingResult.rejectValue("email", "error.dtoCadastro", "Email inválido !");
             return mv;
         }
 
         if (verificaoDeEmail.isPresent()) {
             System.out.println("Aqui vai ser enviado o e-mail passado, porque o e-mail existe no banco de dados");
-            serviceEmail.enviarEmailDeTexto(thsCadastro.getEmail(), "Recuperação de email", "Olá, para recuperar sua senha clique no link abaixo localhost:8080/");
+            serviceEmail.enviarEmailDeTexto(thsCadastro.getEmail(), "Recuperação de email", "Olá, para recuperar sua senha clique no link localhost:8080/");
+            bindingResult.rejectValue("email", "success.dtoRecSenha", "Email enviado com sucesso.");
         } else {
             System.out.println("O e-mail não existe no banco de dados!");
             bindingResult.rejectValue("email", "error.dtoRecSenha", "Não existe uma conta com este email !");

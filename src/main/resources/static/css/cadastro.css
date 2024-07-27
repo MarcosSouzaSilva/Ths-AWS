@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+/* Estilização geral do body */
 body {
     font-family: Arial, sans-serif;
     background-color: #121212; /* Cor de fundo escura */
@@ -12,9 +13,90 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
 
-/* CSS para o link "Já tem uma conta?" */
+/* Container principal do cadastro */
+.cadastro-container {
+    width: 100%;
+    max-width: 360px;
+    background-color: #1f1f1f; /* Cor de fundo do container */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Título do formulário */
+.cadastro-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff; /* Cor do texto */
+}
+
+/* Grupo de entrada de dados */
+.input-group {
+    margin-bottom: 25px; /* Reduzido para ajustar o espaçamento */
+    position: relative; /* Permitir posicionamento relativo para elementos filhos absolutos */
+    display: flex; /* Para alinhar itens horizontalmente */
+    align-items: center; /* Alinha verticalmente os ícones com os inputs */
+}
+
+/* Rótulo com ícone */
+.input-group label {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #ccc; /* Cor do ícone */
+}
+
+/* Campos de entrada */
+.input-group input {
+    width: 100%;
+    padding: 12px 10px; /* Adicionado padding vertical */
+    font-size: 16px;
+    background-color: #333; /* Cor do campo de entrada */
+    color: #ffffff; /* Cor do texto dentro do campo */
+    border: 1px solid #444; /* Adicionada borda para melhor visualização */
+    border-radius: 4px; /* Bordas arredondadas */
+    outline: none;
+}
+
+/* Feedback de erro */
+.invalid-feedback {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px; /* Espaço entre o campo e a mensagem de erro */
+    position: absolute; /* Posicionamento absoluto */
+    bottom: -25px; /* Ajustado para melhor visualização */
+    left: 0;
+    width: 100%; /* Ocupa toda a largura disponível */
+    display: none; /* Inicialmente escondido */
+}
+
+
+/* Exibe a mensagem de erro quando o campo está com erro */
+.input-group.has-error .invalid-feedback {
+    display: block;
+}
+
+/* Botão de submit */
+button {
+    width: 100%;
+    padding: 12px; /* Padding aumentado */
+    background-color: #007bff; /* Cor do botão */
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 4px;
+    margin-top: 10px; /* Espaço entre o botão e a div de feedback */
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Cor do botão ao passar o mouse */
+}
+
+/* Link para login */
 .login-option {
     text-align: center;
     margin-top: 20px;
@@ -30,84 +112,7 @@ body {
     text-decoration: underline;
 }
 
-.cadastro-container {
-    width: 320px;
-    background-color: #1f1f1f; /* Cor de fundo do container */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.cadastro-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #ffffff; /* Cor do texto */
-}
-
-.input-group {
-    margin-bottom: 35px; /* Aumentado para deixar espaço para a invalid-feedback */
-    position: relative; /* Permitir posicionamento relativo para elementos filhos absolutos */
-    display: flex; /* Para alinhar itens horizontalmente */
-    align-items: center; /* Alinha verticalmente os ícones com os inputs */
-}
-
-.input-group label {
-    font-size: 18px;
-    margin-right: 10px;
-    color: #ccc; /* Cor do ícone */
-}
-
-.input-group input {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    background-color: #333; /* Cor do campo de entrada */
-    color: #ffffff; /* Cor do texto dentro do campo */
-    border: none;
-    outline: none;
-}
-
-.invalid-feedback {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 5px;
-    position: absolute; /* Posicionamento absoluto */
-    bottom: -30px; /* Aumentada para deixar a mensagem mais baixa */
-    left: 0;
-    width: 100%; /* Ocupa toda a largura disponível */
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff; /* Cor do botão */
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 4px;
-    margin-top: 10px; /* Espaço entre o botão e a div de feedback */
-}
-
-button:hover {
-    background-color: #0056b3; /* Cor do botão ao passar o mouse */
-}
-
-.register-option {
-    text-align: center;
-    margin-top: 20px;
-    color: #ccc; /* Cor do texto */
-}
-
-.register-option a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.register-option a:hover {
-    text-decoration: underline;
-}
-
+/* Link para voltar */
 .back-button {
     text-align: center;
     margin-top: 20px;
@@ -131,6 +136,6 @@ button:hover {
 /* Responsividade */
 @media screen and (max-width: 400px) {
     .cadastro-container {
-        width: 280px;
+        width: 90%;
     }
 }

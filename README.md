@@ -1,7 +1,7 @@
 Projeto: Site Completo com Spring Boot
 
 Visão Geral
-Este projeto é um site completo desenvolvido em Java com Spring Boot, que oferece funcionalidades de cadastro, login, envio de e-mails e recuperação de senha. O objetivo principal é proporcionar uma experiência de usuário fluida e segura, permitindo que os usuários se registrem, façam login e redefinam suas senhas de maneira fácil e eficiente.
+Este projeto é um site completo desenvolvido em Java com Spring Boot, que oferece funcionalidades de cadastro, login, envio de e-mails e recuperação de senha. O objetivo principal é proporcionar uma experiência de usuário fluida e segura, permitindo que os usuários se registrem, façam login e obtenham suas senhas de maneira fácil e eficiente.
 
 Funcionalidades
 

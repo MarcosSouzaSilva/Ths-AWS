@@ -26,7 +26,6 @@ public class ServiceRecSenha {
     }
 
     public ModelAndView recuperarSenha(@Valid DtoRecSenha dtoRecSenha, BindingResult bindingResult) {
-
         ModelAndView mv = new ModelAndView("reset-password");
 
         if (bindingResult.hasErrors()) {
